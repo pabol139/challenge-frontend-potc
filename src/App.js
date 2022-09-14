@@ -2,6 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
+  const url = new URLSearchParams(window.location.search);
+  console.log(url);
   return (
     <div className="App">
       <header className="App-header">
@@ -9,6 +11,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to feeesuu.
         </p>
+        <p>{url.get("id")}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
