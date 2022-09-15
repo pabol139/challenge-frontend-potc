@@ -17,7 +17,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <PartnerTest />,
     errorElement: <ErrorPage />,
   },
   {
