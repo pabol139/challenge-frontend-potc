@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-
 function callApi(url) {
-  const response = fetch(
+  fetch(
     `https://api7.cloudframework.io/recruitment/fullstack/users?id=${url.get(
       "id"
     )}`,
@@ -18,13 +16,7 @@ function callApi(url) {
 function PartnerTest() {
   const url = new URLSearchParams(window.location.search);
 
-  const response = callApi(url);
-
-  console.log(response);
-
-  useEffect(() => {
-    callApi(url);
-  }, []);
+  callApi(url);
 
   return (
     <div className="App">

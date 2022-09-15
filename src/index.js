@@ -3,15 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createRoot } from "react-dom/client";
+// import { createRoot } from "react-dom/client";
 import PartnerTest from "./pages/partner_test";
 import ErrorPage from "./pages/error-page";
 
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
+  // Route,
+  // Link,
 } from "react-router-dom";
 
 const router = createBrowserRouter([
