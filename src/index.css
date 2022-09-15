@@ -19,3 +19,20 @@ code {
   justify-content: center;
   width: 100%;
 }
+
+.user-info {
+  margin: auto;
+  width: 65%;
+  padding: 1em;
+}
+
+.form-check {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+h1,
+#submit-button {
+  text-align: center;
+}
