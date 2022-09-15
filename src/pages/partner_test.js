@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 function Formulario() {
-  const url = new URLSearchParams(window.location.search);
-
-  const { register, errors, handleSubmit } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +8,8 @@ function Formulario() {
   const [age, setAge] = useState("");
 
   useEffect(() => {
+    const url = new URLSearchParams(window.location.search);
+
     fetch(
       `https://api7.cloudframework.io/recruitment/fullstack/users?id=${url.get(
         "id"
@@ -38,7 +31,7 @@ function Formulario() {
       .catch((error) => console.error(error));
   }, []);
 
-  const updateUserData = (event) => {
+  /*const updateUserData = (event) => {
     event.preventDefault();
 
     const data = {
@@ -58,7 +51,7 @@ function Formulario() {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
-  };
+  };*/
 
   return (
     <div className="user-info">
