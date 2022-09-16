@@ -1,0 +1,50 @@
+.row {
+  margin-top: 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+form {
+  background: white;
+  width: 65%;
+  padding: 1.5em;
+  margin: 0;
+  border-radius: 0.75rem;
+  min-width: 620px;
+}
+
+span {
+  color: rgb(211, 2, 2);
+}
+
+.form-check {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+h2,
+#submit-button {
+  text-align: center;
+}
+
+h2 {
+  border-bottom: 1px solid #d7d6d6;
+  padding-bottom: 20px;
+}
+
+#error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  form {
+    min-width: 300px !important;
+  }
+}
