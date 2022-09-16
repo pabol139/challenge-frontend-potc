@@ -180,7 +180,7 @@ function Formulario() {
             intlConfig={intlConfig}
             className={`form-control`}
             onValueChange={handleOnValueChange}
-            decimalsLimit={6}
+            allowDecimals={false}
             placeholder="Introduzca la cantidad..."
             value={value}
             step={1}
@@ -221,6 +221,7 @@ function Formulario() {
           <option> 3 años</option>
           <option> 4 años</option>
           <option> 5 años</option>
+          <option> 6 años</option>
         </select>
       </div>
       <div className="col-12">
