@@ -35,12 +35,16 @@ h2 {
   padding-bottom: 20px;
 }
 
+.swal2-title {
+  border-bottom: none !important;
+}
 #error-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  gap: 1em;
 }
 
 @media (max-width: 650px) {

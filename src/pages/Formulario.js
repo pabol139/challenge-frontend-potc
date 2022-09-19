@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
+import Swal from "sweetalert2";
+
+const LOAN_WEEKS = 20;
 
 const options = [
   {
@@ -29,12 +32,8 @@ const options = [
   },
 ];
 
-function Formulario() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
+function Formulario({ userData }) {
+  console.log(userData);
 
   const [intlConfig, setIntlConfig] = useState(options[0]);
   const [value, setValue] = useState("");
@@ -53,31 +52,7 @@ function Formulario() {
     }
   };
 
-  useEffect(() => {
-    const url = new URLSearchParams(window.location.search);
-
-    fetch(
-      `https://api7.cloudframework.io/recruitment/fullstack/users?id=${url.get(
-        "id"
-      )}`,
-      {
-        method: "GET",
-        headers: { "X-WEB-KEY": "development" },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setName(data.data.name);
-        setSurname(data.data.surname);
-        setEmail(data.data.email);
-        setPhone(data.data.phone);
-        setAge(data.data.age);
-        console.log(data.data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
-  /*const updateUserData = (event) => {
+  const updateUserData = (event) => {
     event.preventDefault();
 
     const data = {
@@ -95,12 +70,47 @@ function Formulario() {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };*/
+      .then((data) => {
+        if (data.success) {
+          Swal.fire({
+            heightAuto: false,
+            icon: "success",
+            title: "Operación realizada con éxito",
+            html: `
+            <p> <b>Nombre:</b> ${data.data.name}</p>
+            <p> <b>Apellidos:</b> ${data.data.surname}</p>
+            <p> <b>Email:</b> ${data.data.email}</p>
+            <p> <b>Teléfono:</b> ${data.data.phone}</p>
+            <p> <b>Edad:</b> ${data.data.age}</p>
+            <p> <b>Préstamo:</b> ${data.data.loan_amount} </p>
+            <p> <b>Fecha a conseguir:</b> ${data.data.name} </p>
+            <p> <b>Tiempo a devolver:</b> ${data.data.loan_weeks} </p>`,
+          }).then(function () {
+            window.location.reload();
+          });
+        } else {
+          Swal.fire({
+            heightAuto: false,
+            icon: "error",
+            title: "No se puedo realizar la operación",
+            text: "Por favor, inténtelo de nuevo o más tarde.",
+          });
+        }
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  let content = [];
+
+  for (let i = 1; i <= LOAN_WEEKS; i++) {
+    content.push(<option key={i}>{i} años</option>);
+  }
 
   return (
-    <form className="row g-3">
+    <form className="row g-3" onSubmit={updateUserData}>
       <h2>Datos del préstamo</h2>
       <div className="col-md-4">
         <label htmlFor="inputEmail4" className="form-label">
@@ -108,7 +118,7 @@ function Formulario() {
         </label>
         <input
           type="text"
-          defaultValue={name}
+          defaultValue={userData.name}
           disabled
           name="name"
           className="form-control"
@@ -120,7 +130,7 @@ function Formulario() {
         </label>
         <input
           type="text"
-          defaultValue={surname}
+          defaultValue={userData.surname}
           disabled
           name="surname"
           className="form-control"
@@ -133,7 +143,7 @@ function Formulario() {
         </label>
         <input
           type="mail"
-          defaultValue={email}
+          defaultValue={userData.email}
           disabled
           name="email"
           className="form-control"
@@ -146,7 +156,7 @@ function Formulario() {
         </label>
         <input
           type="number"
-          defaultValue={phone}
+          defaultValue={userData.phone}
           name="number"
           className="form-control"
           id="inputAddress"
@@ -159,7 +169,7 @@ function Formulario() {
         </label>
         <input
           type="number"
-          defaultValue={age}
+          defaultValue={userData.age}
           min="18"
           max="140"
           name="age"
@@ -205,31 +215,40 @@ function Formulario() {
         </div>
       </div>
       <div className="col-md-4">
-        <label htmlFor="inputState" className="form-label">
+        <label htmlFor="inputZip" className="form-label">
           Fecha a conseguir <span>*</span>
         </label>
-        <input type="date" className="form-control" id="inputZip" />
+        <input
+          type="date"
+          name="loan_date"
+          className="form-control"
+          id="inputZip"
+        />
       </div>
       <div className="col-md-4">
-        <label htmlFor="inputZip" className="form-label">
+        <label htmlFor="inputState" className="form-label">
           Tiempo a devolver <span>*</span>
         </label>
         <select id="inputState" className="form-select">
           <option> Elige un valor</option>
-          <option> 1 año</option>
-          <option> 2 años</option>
-          <option> 3 años</option>
-          <option> 4 años</option>
-          <option> 5 años</option>
-          <option> 6 años</option>
+          {content}
         </select>
       </div>
       <div className="col-12">
         <div className="form-check">
-          <input className="form-check-input" type="checkbox" id="gridCheck" />
+          <input
+            className="form-check-input"
+            name="check"
+            type="checkbox"
+            id="gridCheck"
+          />
           <label className="form-check-label" htmlFor="gridCheck">
             <span>*</span> Aceptar los{" "}
-            <a href="https://cloudframework.io/terminos-y-condiciones/">
+            <a
+              href="https://cloudframework.io/terminos-y-condiciones/"
+              rel="noreferrer"
+              target="_blank"
+            >
               términos y condiciones.
             </a>
           </label>
@@ -244,12 +263,4 @@ function Formulario() {
   );
 }
 
-function PartnerTest() {
-  return (
-    <div className="App">
-      <Formulario />
-    </div>
-  );
-}
-
-export default PartnerTest;
+export default Formulario;

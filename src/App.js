@@ -1,8 +1,8 @@
 import "./App.css";
 import "./pages/pages.css";
 
-import PartnerTest from "./pages/Formulario";
-import ErrorPage from "./pages/error-page";
+import Error from "./pages/Error";
+import Home from "./pages/Home";
 
 import {
   createBrowserRouter,
@@ -16,11 +16,11 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <Navigate to="partner_test" />,
-    errorElement: <ErrorPage />,
+    errorElement: <Error />,
   },
   {
     path: "partner_test",
-    element: <PartnerTest />,
+    element: <Home />,
   },
 ]);
 
