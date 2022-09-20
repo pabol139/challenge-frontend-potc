@@ -1,11 +1,3 @@
-.row {
-  margin-top: 0;
-}
-
-.info-requirements {
-  border-bottom: 0.5px solid #d7d6d6;
-}
-
 label {
   font-weight: bold;
 }
@@ -22,13 +14,12 @@ form {
 }
 
 span {
-  color: rgb(211, 2, 2);
+  color: var(--required-red);
 }
 
-.form-check {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+h2 {
+  border-bottom: 1px solid var(--grey);
+  padding-bottom: 20px;
 }
 
 h2,
@@ -36,9 +27,18 @@ h2,
   text-align: center;
 }
 
-h2 {
-  border-bottom: 1px solid #d7d6d6;
-  padding-bottom: 20px;
+.row {
+  margin-top: 0;
+}
+
+.info-requirements {
+  border-bottom: 0.5px solid var(--grey);
+}
+
+.form-check {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .swal2-title {
@@ -58,7 +58,7 @@ h2 {
 
 .errorMessage {
   font-size: 12px;
-  color: red;
+  color: var(--red);
   margin-top: 1em;
 }
 
@@ -71,13 +71,13 @@ h2 {
 }
 
 .error-input {
-  border-color: red;
+  border-color: var(--red);
 }
 
 .error-input:focus {
-  border-color: red;
+  border-color: var(--red);
 
-  box-shadow: 0 0 0 0.25rem rgba(250, 6, 6, 0.25);
+  box-shadow: 0 0 0 0.25rem var(--darker-red);
 }
 
 #error-page {
@@ -88,6 +88,8 @@ h2 {
   width: 100%;
   gap: 1em;
 }
+
+/* MEDIA QUERIES*/
 
 @media (max-width: 650px) {
   form {

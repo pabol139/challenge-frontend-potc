@@ -1,8 +1,9 @@
 import { useState } from "react";
-import CurrencyInput from "react-currency-input-field";
+import FormCurrencyInput from "./FormCurrencyInput";
 import Swal from "sweetalert2";
-
-const LOAN_WEEKS = 20;
+import FormInput from "./FormInput";
+import FormSelectInput from "./FormSelectInput";
+import FormCheckInput from "./FormCheckInput";
 
 const options = [
   {
@@ -79,7 +80,6 @@ function Formulario({ userData }) {
     });
   };
 
-  console.log(values);
   const handleOnValueChange = (value) => {
     setValues({ ...values, loan_amount: value });
   };
@@ -87,32 +87,47 @@ function Formulario({ userData }) {
   const handleIntlSelect = (event) => {
     const config = options[Number(event.target.value)];
     if (config) {
-      console.log(config);
       setIntlConfig(config);
     }
   };
 
   const validateForm = () => {
     const { phone, age, loan_amount, loan_date, loan_weeks, check } = values;
+
+    // Contamos los dígitos que tiene el año Ex: 2022 -> 4 dígitos
     const minDate = calculateMinimumDate();
     const errors = {};
+    const yearDigits = loan_date.split("-")[0].length;
 
-    if (!phone || phone.length < 9)
-      errors.phone = "Introduce un teléfono válido.";
+    const phoneValidator = new RegExp("^[0-9]{9,15}$");
+    const ageValidator = new RegExp("^[0-9]{1,3}$");
 
-    if (!age) errors.age = "Introduce tu edad.";
+    const phoneIsValid = phoneValidator.test(phone);
+    const ageIsValid = ageValidator.test(age);
+
+    // Validación teléfono
+    if (!phoneIsValid) errors.phone = "Introduce un teléfono válido.";
+
+    // Validación edad
+    if (!ageIsValid || age > 140) errors.age = "Introduce una edad válida.";
     else if (age < 18) errors.age = "Debes tener 18 años o más.";
 
+    // Validación cantidad del préstamo
     if (!loan_amount) errors.loan_amount = "Introduce una cantidad válida.";
     else if (loan_amount <= 10) errors.loan_amount = "Debe ser mayor a 10€";
     else if (loan_amount > 1000)
       errors.loan_amount = "Debe ser menor o igual a 1000€";
 
-    if (!loan_date) errors.loan_date = "Introduce una fecha válida.";
+    // Validación fecha a conseguir
+    if (!loan_date || yearDigits > 4)
+      errors.loan_date = "Introduce una fecha válida.";
     else if (minDate > loan_date) {
       errors.loan_date = "La fecha debe ser una fecha a futuro.";
     }
+    // Validación fecha a devolver
     if (!loan_weeks) errors.loan_weeks = "Introduce un tiempo válido.";
+
+    // Validación check de terminos y condiciones
     if (!check) errors.check = "Por favor, acepta los términos y condiciones.";
 
     return errors;
@@ -142,8 +157,6 @@ function Formulario({ userData }) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("symbol:", intlConfig.symbol);
-
           if (data.success) {
             Swal.fire({
               heightAuto: false,
@@ -160,7 +173,7 @@ function Formulario({ userData }) {
               <p> <b>Fecha a conseguir:</b> ${values.loan_date} </p>
               <p> <b>Tiempo a devolver:</b> ${data.data.loan_weeks} año(s) </p>
               </div>`,
-              footer: "Nos pondremos en contacto con usted lo antes posible.",
+              footer: `<b>Nos pondremos en contacto con usted lo antes posible.</b>`,
             }).then(function () {
               window.location.reload();
             });
@@ -172,26 +185,12 @@ function Formulario({ userData }) {
               text: "Por favor, inténtelo de nuevo o más tarde.",
             });
           }
-          console.log(data);
         })
         .catch((error) => {
           console.error(error);
         });
     }
   };
-
-  const content = [];
-
-  for (let i = 1; i <= LOAN_WEEKS; i++) {
-    let text = "años";
-    if (i === 1) text = "año";
-
-    content.push(
-      <option value={i} key={i}>
-        {i} {text}
-      </option>
-    );
-  }
 
   return (
     <form className="row g-3 needs-validation" onSubmit={updateUserData}>
@@ -202,173 +201,148 @@ function Formulario({ userData }) {
         <ul>
           <li>Debes ser mayor de 18 años.</li>
           <li>
-            Sólo se puede solicitar una cantidad mayor a 10€ e inferior o igual
-            a 1000€.
+            Sólo se puede solicitar una cantidad mayor a 10 e inferior o igual a
+            1000 en su respectiva moneda.
           </li>
           <li>La fecha a conseguir solo puede ser una fecha a futuro.</li>
         </ul>
       </div>
 
-      <div className="col-md-3">
-        <label htmlFor="inputEmail4" className="form-label">
-          Nombre
-        </label>
-        <input
-          type="text"
-          defaultValue={values.name}
-          disabled
-          name="name"
-          className="form-control"
-        />
-      </div>
-      <div className="col-md-3">
-        <label htmlFor="inputPassword4" className="form-label">
-          Apellidos
-        </label>
-        <input
-          type="text"
-          defaultValue={values.surname}
-          disabled
-          name="surname"
-          className="form-control"
-          id="inputPassword4"
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="inputPassword4" className="form-label">
-          Email
-        </label>
-        <input
-          type="mail"
-          defaultValue={values.email}
-          disabled
-          name="email"
-          className="form-control"
-          id="inputPassword4"
-        />
-      </div>
-      <div className=" col-md-6">
-        <label htmlFor="inputAddress" className="form-label">
-          Teléfono <span>*</span>
-        </label>
-        <input
-          type="number"
-          onChange={onChange}
-          defaultValue={values.phone}
-          name="phone"
-          className={`form-control  ${errors.phone ? "error-input" : ""}`}
-          id="inputAddress"
-        />
-        <span className="errorMessage">{errors.phone}</span>
-      </div>
+      <FormInput
+        containerClassName={""}
+        size={3}
+        htmlfor={"inputPassword4"}
+        id={"inputPassword4"}
+        label={"Nombre"}
+        type={"text"}
+        name={"name"}
+        defaultValue={values.name}
+        onChange={""}
+        errors={[]}
+        disabled={true}
+        inputClassName={`form-control`}
+      />
+      <FormInput
+        containerClassName={""}
+        size={3}
+        htmlfor={"inputPassword4"}
+        id={"inputPassword4"}
+        label={"Apellidos"}
+        type={"text"}
+        name={"name"}
+        defaultValue={values.surname}
+        onChange={""}
+        errors={[]}
+        disabled={true}
+        inputClassName={`form-control`}
+      />
+      <FormInput
+        containerClassName={""}
+        size={6}
+        htmlfor={"inputPassword4"}
+        id={"inputPassword4"}
+        label={"Email"}
+        type={"mail"}
+        name={"email"}
+        defaultValue={values.email}
+        onChange={""}
+        errors={[]}
+        disabled={true}
+        inputClassName={`form-control`}
+      />
+      <FormInput
+        containerClassName={""}
+        size={6}
+        htmlfor={"inputAddress"}
+        id={"inputAddress"}
+        label={["Teléfono ", <span>*</span>]}
+        type={"tel"}
+        name={"phone"}
+        defaultValue={values.phone}
+        onChange={onChange}
+        errors={errors.phone}
+        disabled={false}
+        inputClassName={`form-control  ${errors.phone ? "error-input" : ""}`}
+      />
+      <FormInput
+        containerClassName={"age"}
+        size={6}
+        htmlfor={"inputAddress2"}
+        id={"inputAddress2"}
+        label={["Edad ", <span>*</span>]}
+        type={"text"}
+        name={"age"}
+        defaultValue={values.age}
+        onChange={onChange}
+        errors={errors.age}
+        disabled={false}
+        inputClassName={`form-control  ${errors.age ? "error-input" : ""}`}
+      />
 
-      <div className="col-md-6 age">
-        <label htmlFor="inputAddress2" className="form-label">
-          Edad <span>*</span>
-        </label>
-        <input
-          type="number"
-          defaultValue={values.age}
-          onChange={onChange}
-          name="age"
-          className={`form-control  ${errors.age ? "error-input" : ""}`}
-          id="inputAddress2"
-        />
-        <span className="errorMessage">{errors.age}</span>
-      </div>
-      <div className="col-md-4 loan_amount">
-        <label htmlFor="inputCity" className="form-label">
-          Préstamo <span>*</span>
-        </label>
-        <div className="input-group mb-3">
-          <CurrencyInput
-            id="validationCustom04"
-            name="loan_amount"
-            intlConfig={intlConfig}
-            className={`form-control  ${
-              errors.loan_amount ? "error-input" : ""
-            }`}
-            onValueChange={handleOnValueChange}
-            allowDecimals={false}
-            placeholder="Cantidad..."
-            value={values.loan_amount}
-            step={1}
-          />
-          <select
-            className={`btn btn-outline-secondary dropdown-toggle ${
-              errors.loan_amount ? "error-input" : ""
-            }`}
-            id="intlConfigSelect"
-            onChange={handleIntlSelect}
+      <FormCurrencyInput
+        intlConfig={intlConfig}
+        onChange={handleOnValueChange}
+        onSelect={handleIntlSelect}
+        value={values.loan_amount}
+        errors={errors.loan_amount}
+        options={options}
+      />
+
+      <FormSelectInput
+        containerClassName={"loan_weeks"}
+        size={4}
+        htmlfor={"inputState"}
+        id={"inputState"}
+        label={["Tiempo a devolver ", <span>*</span>]}
+        name={"loan_weeks"}
+        defaultValue={"Elige una opción..."}
+        onChange={onChange}
+        errors={errors.loan_weeks}
+        disabled={false}
+        inputClassName={`form-control  ${
+          errors.loan_weeks ? "error-input" : ""
+        }`}
+      />
+
+      <FormInput
+        containerClassName={"loan_date"}
+        size={4}
+        htmlfor={"inputZip"}
+        id={"inputZip"}
+        label={["Fecha a conseguir ", <span>*</span>]}
+        type={"date"}
+        name={"loan_date"}
+        defaultValue={""}
+        onChange={onChange}
+        errors={errors.loan_date}
+        disabled={false}
+        inputClassName={`form-control  ${
+          errors.loan_date ? "error-input" : ""
+        }`}
+      />
+
+      <FormCheckInput
+        size={12}
+        htmlfor={"gridCheck"}
+        id={"gridCheck"}
+        label={[
+          <span>*</span>,
+          " Aceptar los ",
+          <a
+            href="https://cloudframework.io/terminos-y-condiciones/"
+            rel="noreferrer"
+            target="_blank"
           >
-            {options.map((config, i) => {
-              if (config) {
-                const { locale, currency, symbol } = config;
-                return (
-                  <option key={`${locale}${currency}`} value={i}>
-                    {symbol}
-                  </option>
-                );
-              }
-              return null;
-            })}
-          </select>
-        </div>
-        <span className="errorMessage">{errors.loan_amount}</span>
-      </div>
-      <div className="col-md-4 loan_weeks">
-        <label htmlFor="inputState" className="form-label">
-          Tiempo a devolver <span>*</span>
-        </label>
-        <select
-          onChange={onChange}
-          id="inputState"
-          className={`form-control  ${errors.loan_weeks ? "error-input" : ""}`}
-          name="loan_weeks"
-        >
-          <option value={""}> Elige un valor</option>
-          {content}
-        </select>
-        <span className="errorMessage">{errors.loan_weeks}</span>
-      </div>
-      <div className="col-md-4 loan_date">
-        <label htmlFor="inputZip" className="form-label">
-          Fecha a conseguir <span>*</span>
-        </label>
-        <input
-          type="date"
-          name="loan_date"
-          className={`form-control  ${errors.loan_date ? "error-input" : ""}`}
-          id="inputZip"
-          onChange={onChange}
-        />
-        <span className="errorMessage">{errors.loan_date}</span>
-      </div>
+            términos y condiciones.
+          </a>,
+        ]}
+        name={"check"}
+        onChange={onChange}
+        errors={errors.check}
+        disabled={false}
+        inputClassName={`form-control  ${errors.check ? "error-input" : ""}`}
+      />
 
-      <div className="col-12">
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            name="check"
-            onChange={onChange}
-            type="checkbox"
-            id="gridCheck"
-          />
-          <label className="form-check-label" htmlFor="gridCheck">
-            <span>*</span> Aceptar los{" "}
-            <a
-              href="https://cloudframework.io/terminos-y-condiciones/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              términos y condiciones.
-            </a>
-          </label>
-        </div>
-        <p className="errorContainer">
-          <span className="errorMessage">{errors.check}</span>
-        </p>
-      </div>
       <div className="col-12" id="submit-button">
         <button type="submit" className="btn btn-primary">
           Enviar

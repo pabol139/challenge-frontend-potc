@@ -1,3 +1,10 @@
+:root {
+  --grey: #d7d6d6;
+  --red: red;
+  --required-red: rgb(211, 2, 2);
+  --darker-red: rgba(250, 6, 6, 0.25);
+}
+
 html,
 body {
   height: 100%;
