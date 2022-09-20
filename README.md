@@ -5,7 +5,10 @@ Este proyecto consiste en desarrollar un formulario mediante el cual se pueda so
 Instalación
 -----------
 
-Una vez clonado el repositorio
+Para este proyecto se ha utilizado NodeJS como servidor.
+
+* Instalar NodeJS y npm desde https://nodejs.org/en/
+
 
 ### `npm start`
 
