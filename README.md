@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# Challenge Front End para People of The Cloud
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto ha consiste en desarrollar un formulario mediante el cual se pueda solicitar un préstamo.
 
-## Available Scripts
+## Guía de instalación en local
 
-In the project directory, you can run:
+Una vez clonado el repositorio
 
 ### `npm start`
 
