@@ -1,11 +1,11 @@
 # Challenge Front End para People of The Cloud
 
-Este proyecto consiste en desarrollar un formulario mediante el cual se pueda solicitar un préstamo.
+Este proyecto consiste en un formulario mediante el cual se pueda solicitar un préstamo. Ha sido desarrollado con React y NodeJS.
 
 Instalación
 -----------
 
-Para este proyecto se ha utilizado React para el apartado del Front End y NodeJS como servidor.
+Para este proyecto se ha utilizado NodeJS como servidor.
 
 * Instalar NodeJS y npm desde https://nodejs.org/en/
 
