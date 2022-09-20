@@ -17,4 +17,4 @@ Cuando finalice la ejecución, ejecutamos el siguiente comando:
 
 ### `npm start`
 
-¡Listo! Accede a esta URL [http://localhost:3000/partner_test?id=1](http://localhost:3000) para poder ver la aplicación.
+¡Listo! Accede a esta URL [http://localhost:3000/partner_test?id=1](http://localhost:3000/partner_test?id=1) para poder ver la aplicación.
