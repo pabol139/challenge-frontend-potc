@@ -24,7 +24,6 @@ function Home() {
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
-              console.log(data);
               setValidUrl(<Formulario userData={data.data} />);
               setBusy(false);
             });
