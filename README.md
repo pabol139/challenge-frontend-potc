@@ -5,7 +5,7 @@ Este proyecto consiste en desarrollar un formulario mediante el cual se pueda so
 Instalación
 -----------
 
-Para este proyecto se ha utilizado NodeJS como servidor.
+Para este proyecto se ha utilizado React para el apartado del Front End y NodeJS como servidor.
 
 * Instalar NodeJS y npm desde https://nodejs.org/en/
 
