@@ -142,6 +142,8 @@ function Formulario({ userData }) {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("symbol:", intlConfig.symbol);
+
           if (data.success) {
             Swal.fire({
               heightAuto: false,
@@ -154,7 +156,7 @@ function Formulario({ userData }) {
               <p> <b>Email:</b> ${data.data.email}</p>
               <p> <b>Teléfono:</b> ${data.data.phone}</p>
               <p> <b>Edad:</b> ${data.data.age}</p>
-              <p> <b>Préstamo:</b> ${data.data.loan_amount} </p>
+              <p> <b>Préstamo:</b> ${data.data.loan_amount} ${intlConfig.symbol} </p>
               <p> <b>Fecha a conseguir:</b> ${values.loan_date} </p>
               <p> <b>Tiempo a devolver:</b> ${data.data.loan_weeks} año(s) </p>
               </div>`,
