@@ -1,6 +1,6 @@
 # Challenge Front End para People of The Cloud
 
-Este proyecto ha consiste en desarrollar un formulario mediante el cual se pueda solicitar un préstamo.
+Este proyecto consiste en desarrollar un formulario mediante el cual se pueda solicitar un préstamo.
 
 ## Guía de instalación en local
 
