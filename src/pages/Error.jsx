@@ -9,8 +9,8 @@ export default function Error() {
       <p>
         <i>
           <b>
-            {window.location.href}
-            ?id=<span>número</span>
+            {window.location.href.split("/")[2]}
+            /partner_test?id=<span>número</span>
           </b>
         </i>
       </p>

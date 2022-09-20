@@ -13,9 +13,7 @@ function Home() {
 
     if (id && id > 0 && id < 3) {
       fetch(
-        `https://api7.cloudframework.io/recruitment/fullstack/users?id=${url.get(
-          "id"
-        )}`,
+        `https://api7.cloudframework.io/recruitment/fullstack/users?id=${id}`,
         {
           method: "GET",
           headers: { "X-WEB-KEY": "development" },
