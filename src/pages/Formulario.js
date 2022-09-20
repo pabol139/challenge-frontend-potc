@@ -141,6 +141,8 @@ function Formulario({ userData }) {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
+      setErrors({});
+
       const data = {
         phone: values.phone,
         age: values.age.toString(),
