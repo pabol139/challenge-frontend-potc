@@ -2,7 +2,8 @@
 
 Este proyecto consiste en desarrollar un formulario mediante el cual se pueda solicitar un préstamo.
 
-## Guía de instalación en local
+Instalación
+-----------
 
 Una vez clonado el repositorio
 
